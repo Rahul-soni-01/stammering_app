@@ -22,8 +22,13 @@ class AdminController extends Controller
     // Practice Sessions Management
     public function practiceSessions()
     {
-        $sessions = PracticeSession::orderBy('day')->get();
-        return view('admin.practice-sessions.index', compact('sessions'));
+        $practiceSessions = PracticeSession::orderBy('day')->paginate(10);
+        return view('admin.practice-sessions.index', compact('practiceSessions'));
+    }
+
+    public function showPracticeSession(PracticeSession $practiceSession)
+    {
+        return view('admin.practice-sessions.show', compact('practiceSession'));
     }
 
     public function createPracticeSession()
