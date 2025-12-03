@@ -32,7 +32,7 @@
         </div>
     </nav>
 
-    <div class="max-w-4xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
+    <div class="max-w-4xl mx-auto  px-4 sm:px-6 lg:px-8">
         <div class="bg-white shadow-lg rounded-lg overflow-hidden">
             <div class="px-6 py-8 sm:px-10">
                 <h1 class="text-3xl font-extrabold text-gray-900">Day {{ $session->day }}: {{ $session->title }}</h1>
