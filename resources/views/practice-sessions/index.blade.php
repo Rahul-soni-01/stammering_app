@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Practice Sessions - Stammering Solutions</title>
+    <title>Practice Sessions - {{ $webSetting->site_name ?? 'Stammering Solutions' }}</title>
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=instrument-sans:400,500,600,700&display=swap" rel="stylesheet" />
     @vite(['resources/css/app.css', 'resources/js/app.js'])
@@ -17,10 +17,14 @@
             <div class="flex justify-between h-16">
                 <div class="flex items-center">
                     <a href="/" class="flex-shrink-0 flex items-center">
-                        <svg class="h-8 w-8 text-indigo-600" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                        </svg>
-                        <span class="ml-2 text-xl font-bold text-gray-900">Stammering Solutions</span>
+                        @if($webSetting && $webSetting->logo)
+                            <img src="{{ asset('storage/' . $webSetting->logo) }}" alt="{{ $webSetting->site_name ?? 'Logo' }}" class="h-8 w-8">
+                        @else
+                            <svg class="h-8 w-8 text-indigo-600" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        @endif
+                        <span class="ml-2 text-xl font-bold text-gray-900">{{ $webSetting->site_name ?? 'Stammering Solutions' }}</span>
                     </a>
                 </div>
             </div>

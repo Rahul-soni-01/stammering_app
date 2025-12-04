@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Article;
 use App\Models\PracticeSession;
 use App\Models\User;
+use App\Models\WebSetting;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -78,13 +79,18 @@ class AdminController extends Controller
     // Articles Management
     public function articles()
     {
-        $articles = Article::latest()->get();
+        $articles = Article::latest()->paginate(10);
         return view('admin.articles.index', compact('articles'));
     }
 
     public function createArticle()
     {
         return view('admin.articles.create');
+    }
+
+    public function showArticle(Article $article)
+    {
+        return view('admin.articles.show', compact('article'));
     }
 
     public function storeArticle(Request $request)
@@ -216,5 +222,46 @@ class AdminController extends Controller
     {
         $user->delete();
         return redirect()->route('admin.users.index')->with('success', 'User deleted successfully.');
+    }
+
+    // Web Settings Management
+    public function webSettings()
+    {
+        $webSetting = WebSetting::first();
+        return view('admin.web-settings.edit', compact('webSetting'));
+    }
+
+    public function updateWebSettings(Request $request)
+    {
+        $request->validate([
+            'site_name' => 'nullable|string|max:255',
+            'site_tagline' => 'nullable|string|max:255',
+            'logo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'favicon' => 'nullable|file|mimes:ico,png,jpg,jpeg,gif|max:2048',
+            'footer_text' => 'nullable|string',
+            'email' => 'nullable|email|max:255',
+            'phone' => 'nullable|string|max:255',
+            'address' => 'nullable|string',
+        ]);
+
+        $webSetting = WebSetting::first();
+        if (!$webSetting) {
+            $webSetting = new WebSetting();
+        }
+
+        $data = $request->only(['site_name', 'site_tagline', 'footer_text', 'email', 'phone', 'address']);
+
+        if ($request->hasFile('logo')) {
+            $data['logo'] = $request->file('logo')->store('web-settings', 'public');
+        }
+
+        if ($request->hasFile('favicon')) {
+            $data['favicon'] = $request->file('favicon')->store('web-settings', 'public');
+        }
+
+        $webSetting->fill($data);
+        $webSetting->save();
+
+        return redirect()->route('admin.web-settings.edit')->with('success', 'Web settings updated successfully.');
     }
 }

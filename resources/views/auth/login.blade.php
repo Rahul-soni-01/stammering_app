@@ -9,7 +9,11 @@
             <div class="absolute bottom-10 right-10 w-48 h-48 bg-blue-400 rounded-full opacity-20"></div>
 
             <!-- Logo -->
-            <img src="{{ asset('images/logo.jpg') }}" alt="Logo" class="w-68 h-auto mb-6 drop-shadow-xl">
+            @if($webSetting && $webSetting->logo)
+                <img src="{{ asset('storage/' . $webSetting->logo) }}" alt="{{ $webSetting->site_name ?? 'Logo' }}" class="w-68 h-auto mb-6 drop-shadow-xl">
+            @else
+                <img src="{{ asset('images/logo.jpg') }}" alt="Logo" class="w-68 h-auto mb-6 drop-shadow-xl">
+            @endif
 
             <!-- Branding -->
             <h1 class="text-4xl font-bold tracking-wide text-center">

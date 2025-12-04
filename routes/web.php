@@ -22,6 +22,18 @@ Route::middleware('auth')->group(function () {
 Route::get('/practice-sessions', [PracticeSessionController::class, 'index'])->name('practice-sessions.index');
 Route::get('/practice-sessions/{id}', [PracticeSessionController::class, 'show'])->name('practice-sessions.show');
 
+Route::get('/about', function () {
+    return view('about');
+})->name('about');
+
+Route::get('/resources', function () {
+    return view('resources');
+})->name('resources');
+
+Route::get('/community', function () {
+    return view('community');
+})->name('community');
+
 // Admin routes
 Route::middleware(['auth'])->group(function () {
     Route::get('/admin', [AdminController::class, 'dashboard'])->name('admin.dashboard')->middleware('admin');
@@ -50,6 +62,7 @@ Route::middleware(['auth'])->group(function () {
     // Articles
     Route::get('/admin/articles', [AdminController::class, 'articles'])->name('admin.articles.index')->middleware('admin');
     Route::get('/admin/articles/create', [AdminController::class, 'createArticle'])->name('admin.articles.create')->middleware('admin');
+    Route::get('/admin/articles/{article}', [AdminController::class, 'showArticle'])->name('admin.articles.show')->middleware('admin');
     Route::post('/admin/articles', [AdminController::class, 'storeArticle'])->name('admin.articles.store')->middleware('admin');
     Route::get('/admin/articles/{article}/edit', [AdminController::class, 'editArticle'])->name('admin.articles.edit')->middleware('admin');
     Route::put('/admin/articles/{article}', [AdminController::class, 'updateArticle'])->name('admin.articles.update')->middleware('admin');
@@ -62,6 +75,10 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/admin/users/{user}/edit', [AdminController::class, 'editUser'])->name('admin.users.edit')->middleware('admin');
     Route::put('/admin/users/{user}', [AdminController::class, 'updateUser'])->name('admin.users.update')->middleware('admin');
     Route::delete('/admin/users/{user}', [AdminController::class, 'destroyUser'])->name('admin.users.destroy')->middleware('admin');
+
+    // Web Settings Routes
+    Route::get('/admin/web-settings', [AdminController::class, 'webSettings'])->name('admin.web-settings.edit')->middleware('admin');
+    Route::put('/admin/web-settings', [AdminController::class, 'updateWebSettings'])->name('admin.web-settings.update')->middleware('admin');
 });
 
 require __DIR__ . '/auth.php';

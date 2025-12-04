@@ -3,7 +3,14 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Stammering Solutions - Dashboard</title>
+    <title>{{ $webSetting->site_name ?? 'Stammering Solutions' }} - {{ $webSetting->site_tagline ?? 'Dashboard' }}</title>
+
+    <!-- Favicon -->
+    @if($webSetting && $webSetting->favicon)
+        <link rel="icon" type="image/x-icon" href="{{ asset('storage/' . $webSetting->favicon) }}">
+    @else
+        <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    @endif
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=instrument-sans:400,500,600,700&display=swap" rel="stylesheet" />
@@ -62,18 +69,22 @@
             <div class="flex justify-between h-16">
                 <div class="flex items-center">
                     <div class="flex-shrink-0 flex items-center">
-                        <svg class="h-8 w-8 text-indigo-600" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                        </svg>
-                        <span class="ml-2 text-xl font-bold text-gray-900">Stammering Solutions</span>
+                        @if($webSetting && $webSetting->logo)
+                            <img src="{{ asset('storage/' . $webSetting->logo) }}" alt="{{ $webSetting->site_name ?? 'Logo' }}" class="h-8 w-8">
+                        @else
+                            <svg class="h-8 w-8 text-indigo-600" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        @endif
+                        <span class="ml-2 text-xl font-bold text-gray-900">{{ $webSetting->site_name ?? 'Stammering Solutions' }}</span>
                     </div>
                 </div>
                 <div class="flex items-center space-x-4">
                     <a href="#" class="text-gray-700 hover:text-indigo-600 px-3 py-2 rounded-md text-sm font-medium">Home</a>
                     <a href="{{ route('practice-sessions.index') }}" class="text-gray-700 hover:text-indigo-600 px-3 py-2 rounded-md text-sm font-medium">Practice Sessions</a>
-                    <a href="#" class="text-gray-700 hover:text-indigo-600 px-3 py-2 rounded-md text-sm font-medium">About</a>
-                    <a href="#" class="text-gray-700 hover:text-indigo-600 px-3 py-2 rounded-md text-sm font-medium">Resources</a>
-                    <a href="#" class="text-gray-700 hover:text-indigo-600 px-3 py-2 rounded-md text-sm font-medium">Community</a>
+                    <a href="{{ route('about') }}" class="text-gray-700 hover:text-indigo-600 px-3 py-2 rounded-md text-sm font-medium">About</a>
+                    <a href="{{ route('resources') }}" class="text-gray-700 hover:text-indigo-600 px-3 py-2 rounded-md text-sm font-medium">Resources</a>
+                    <a href="{{ route('community') }}" class="text-gray-700 hover:text-indigo-600 px-3 py-2 rounded-md text-sm font-medium">Community</a>
                     @auth
                     @if(Auth::user()->is_admin)
                         <a href="{{ route('admin.dashboard') }}" class="text-gray-700 hover:text-indigo-600 px-3 py-2 rounded-md text-sm font-medium">Dashboard</a>
@@ -443,10 +454,14 @@
             <div class="xl:grid xl:grid-cols-3 xl:gap-8">
                 <div class="space-y-8 xl:col-span-1">
                     <div class="flex items-center">
-                        <svg class="h-8 w-8 text-indigo-600" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                        </svg>
-                        <span class="ml-2 text-xl font-bold text-gray-900">Stammering Solutions</span>
+                        @if($webSetting && $webSetting->logo)
+                            <img src="{{ asset('storage/' . $webSetting->logo) }}" alt="{{ $webSetting->site_name ?? 'Logo' }}" class="h-8 w-8">
+                        @else
+                            <svg class="h-8 w-8 text-indigo-600" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        @endif
+                        <span class="ml-2 text-xl font-bold text-gray-900">{{ $webSetting->site_name ?? 'Stammering Solutions' }}</span>
                     </div>
                     <p class="text-gray-500 text-base">
                         Empowering individuals to overcome stammering through comprehensive resources, community support, and professional guidance.
@@ -492,7 +507,7 @@
             </div>
             <div class="mt-12 border-t border-gray-200 pt-8">
                 <p class="text-base text-gray-400 xl:text-center">
-                    &copy; 2024 Stammering Solutions. All rights reserved.
+                    {{ $webSetting->footer_text ?? '&copy; 2024 Stammering Solutions. All rights reserved.' }}
                 </p>
             </div>
         </div>

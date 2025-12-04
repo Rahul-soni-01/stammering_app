@@ -5,7 +5,14 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
-        <title>{{ config('app.name', 'Laravel') }}</title>
+        <title>{{ $webSetting->site_name ?? config('app.name', 'Laravel') }}</title>
+
+        <!-- Favicon -->
+        @if($webSetting && $webSetting->favicon)
+            <link rel="icon" type="image/x-icon" href="{{ asset('storage/' . $webSetting->favicon) }}">
+        @else
+            <link rel="icon" type="image/x-icon" href="/favicon.ico">
+        @endif
 
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.bunny.net">
